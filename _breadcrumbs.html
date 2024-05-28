@@ -1,0 +1,13 @@
+{% unless page.is_homepage? or page.level == 0 or page.level == nil %}
+  <nav aria-label="breadcrumb">
+    <ol class="flex flex-wrap list-reset pt-3 pb-3 py-4 px-4 mb-4 bg-gray-200 rounded border-0 bg-transparent pl-0">
+      <li class="inline-block px-2 py-2 text-gray-700"><a href="/">Home</a></li>
+      {% for ancestor in page.ancestors %}
+        {% unless ancestor.is_homepage? %}
+          <li class="inline-block px-2 py-2 text-gray-700"><a href="{{ ancestor.url }}">{{ ancestor.name }}</a></li>
+        {% endunless %}
+      {% endfor %}
+      <li class="inline-block px-2 py-2 text-gray-700 active" aria-current="page" data-page-level="{{page.level}}">{{page.name}}</li>
+    </ol>
+  </nav>
+{% endunless %}

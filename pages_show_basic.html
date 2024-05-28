@@ -1,0 +1,27 @@
+<div id="content">
+  {% if page.is_homepage? == true %}
+    {% include 'pages_show_home' %}
+
+  {% elsif page.parent.slug == 'projects' %}
+    {% if page.slug == 'house-of-citizens' %}
+      {% include 'project_house-of-citizens' %}
+    {% endif %}
+
+  {% elsif page.slug == 'projects' %}
+    <h2 class="mb-3 text-5xl font-bold">{{ page.headline }}</h2>
+
+    {% for descendant in page.descendants %}
+      <div>
+        <a href="{{descendant.url }}">{{ descendant.headline }}</a>
+      </div>
+    {% endfor %}
+  {% else %}
+    <div class="container lg:max-w-4xl my-36">
+      {% if page.headline.size > 0 %}
+        <h2 class="mb-12 text-5xl font-bold">{{ page.headline }}</h2>
+      {% endif %}
+
+      <div class="prose">{{ page.basic.content }}</div>
+    </div>
+  {% endif %}
+</div>

@@ -1,0 +1,41 @@
+<button
+  class="py-1 px-2 text-md leading-normal bg-transparent border border-transparent rounded"
+  type="button"
+  data-toggle="collapse"
+  data-target="#primaryNav"
+  aria-controls="primaryNav"
+  aria-expanded="false"
+  aria-label="Toggle navigation">
+  <span class="px-5 py-1 border border-gray-600 rounded"></span>
+</button>
+<div class="hidden flex-grow items-center" id="primaryNav">
+  <ul class="flex flex-wrap list-reset pl-0 mb-0 ml-auto">
+    {% for child in site.root_nav_pages %}
+      {% if child.leaf? or child.nav_children.size == 0 %}
+        <li class="">
+          <a href="{{ child.url }}" class="inline-block py-2 px-4 no-underline" >{{ child.name }}</a>
+        </li>
+      {% else %}
+        <li class=" relative">
+          <a href="{{ child.url }}" class="inline-block py-2 px-4 no-underline  inline-block w-0 h-0 ml-1 align border-b-0 border-t-1 border-r-1 border-l-1" id="{{child.slug}}{{child.id}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{ child.name }}
+          </a>
+          <div class=" absolute left-0 z-50 float-left hidden list-reset	 py-2 mt-1 text-base bg-white border border-gray-300 rounded" aria-labelledby="{{child.slug}}{{child.id}}">
+            {% if site.show_parent_in_nav_dropdown? %}
+              <a class="block w-full py-1 px-6 font-normal text-gray-900 whitespace-no-wrap border-0" href="{{ child.url }}">{{ child.name }}</a>
+            {% endif %}
+            {% for child2 in child.nav_children %}
+              <a class="block w-full py-1 px-6 font-normal text-gray-900 whitespace-no-wrap border-0" href="{{ child2.url }}">{{ child2.name }}</a>
+            {% endfor %}
+          </div>
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+	<div class="flex items-start">
+		<div class="mr-3">
+			{% include "avatar", signup: request.current_signup %}
+		</div>
+		{% include "profile_excerpt" %}
+	</div>
+</div>

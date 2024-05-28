@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en" class="text-sm lg:text-base 2xl:text-lg">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ page_title }}</title>
+
+    <!-- start of content for header -->
+    {{ content_for_header }}
+    <!-- end of content for header -->
+
+    <script type="module" src="theme.js"></script>
+    <link rel="stylesheet" href="theme.css">
+
+    <script type="text/javascript">
+      NB.appConfig.userIsLoggedIn = {{ request.logged_in? }};
+    </script>
+  </head>
+  <body class="leading-[1.5] bg-beige text-gray {%if page.is_homepage %}homepage{% endif %} {{ page.page_class_name }} page-{{ request.template | replace: '_', '-' }} js">
+    {% include 'header' %}
+
+    <main id="content" role="main">
+      {% include 'content', sidebar: request.is_sidebar? %}
+    </main>
+    {% include 'footer' %}
+
+    {{ content_for_footer }}
+  </body>
+</html>

@@ -1,0 +1,76 @@
+{% if page.features_count > 0 %}
+  {% if page.features.size > 0 %}
+
+    {% assign first_feature_height = page.features.first.image_height %}
+
+    {% if page.features.size == 1 %}
+      {% assign first_feature_height = 'none' %}
+    {% endif %}
+ 
+
+<div class="bg-teal-100 py-12 flex flex-col justify-center items-center">
+  
+  <div 
+    class="max-w-4xl w-full mx-auto relative"
+    x-data="{ activeSlide: 1, slides: [1, 2, 3, 4, 5] }"
+   >
+    <!-- Slides -->
+    {% for feature in page.features %}
+      <a href="{{ feature.page.url }}" 
+         x-show="activeSlide === {{ forloop.index }}"
+         class="w-full relative font-bold  aspect-video block overflow-hidden bg-teal-500 text-white rounded-lg">
+      
+              <img src="{{ feature.image_url }}" class="absolute inset-0 object-cover block w-full h-full"/>
+              {% if feature.headline.size > 0 %}
+              <div class="container text-base font-bold bg-white  p-4  text-gray-700 absolute bottom-0 ">
+                  
+                    {{ feature.headline }}
+                  </div>
+      
+              {% endif %}
+            
+        <span class="w-12 text-center" x-text="{{ forloop.index }}"></span>
+        <span class="text-teal-300">/</span>
+        <span class="w-12 text-center" x-text="{{ forloop.length }}"></span>
+            </a>
+    {% endfor %}
+    
+    <!-- Prev/Next Arrows -->
+    <div class="absolute inset-0 flex">
+      <div class="flex items-center justify-start w-1/2">
+        <button 
+          class="bg-teal-100 text-teal-500 hover:text-orange-500 font-bold hover:shadow-lg rounded-full w-12 h-12 -ml-6"
+          x-on:click="activeSlide = activeSlide === 1 ? {{ page.features_count }} : activeSlide - 1">
+          &#8592;
+         </button>
+      </div>
+      <div class="flex items-center justify-end w-1/2">
+        <button 
+          class="bg-teal-100 text-teal-500 hover:text-orange-500 font-bold hover:shadow rounded-full w-12 h-12 -mr-6"
+          x-on:click="activeSlide = activeSlide === {{ page.features_count }} ? 1 : activeSlide + 1">
+          &#8594;
+        </button>
+      </div>        
+    </div>
+
+    <!-- Buttons -->
+    <div class="absolute w-full flex items-center justify-center px-4">
+             {% for feature in page.features %}
+
+        <button
+          class="flex-1 w-4 h-2 mt-4 mx-2 mb-0 rounded-full overflow-hidden transition-colors duration-200 ease-out hover:bg-teal-600 hover:shadow-lg"
+          :class="{ 
+              'bg-orange-600': activeSlide === {{ forloop.index }},
+              'bg-teal-300': activeSlide !== {{ forloop.index }} 
+          }" 
+          x-on:click="activeSlide = {{ forloop.index }}"
+        ></button>
+    {% endfor %}
+    </div>
+  </div>
+  
+  </div>
+</div>
+
+  {% endif %}
+{% endif %}

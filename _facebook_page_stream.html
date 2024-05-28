@@ -1,0 +1,50 @@
+{% if page.public_activities_count > 0 or page.is_commentable? %}
+	<div id="stream" class="mt-4">
+    <div class="relative flex flex-col min-w-0 rounded break-words border bg-white border-1 border-gray-300">
+      <div id="comment" class="flex-auto p-6">
+        {% if page.is_commentable? and page.type_name != 'Petition' %}
+          <div class="form">
+            {% form_for comment %}
+              <div class="form_errors">{% error_messages_for comment %}</div>
+              <div class="mb-4 face_comment">
+                {% text_area "content", class:"textarea" %}
+              </div>
+              <div class="flex flex-wrap -mr-1 -ml-1">
+                <div class="mb-4 relative flex-grow max-w-full flex-1 px-4 face_comment">
+                  <div class="update">
+                    {% submit_tag "Post your comment", class:"btn btn-primary fbbuttonConfirm fbbuttonConfirmb" %}
+                  </div>
+                </div>
+                <div class="mb-4 col-auto">
+                  {% if site.has_rule_page? %}
+                    <div class="remove">
+                      <a href="{{ site.rule_page.url }}">Review the site rules</a>
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+              <div class="form_submit"></div>
+            {% endform_for %}
+          </div>
+        {% endif %}
+      </div>
+      <div id="reactions" class="flex-auto p-6 bg-gray-100 border-t rounded-b content-list">
+        <ul id="page-stream" class="list-unstyled mb-0 activities">
+          {% for activity in page.activities %}
+            <li class="activity {% unless forloop.last == true %}mb-3{% endunless %}">
+              <div class="flex items-start">
+                <div class="mr-3">
+                  {% include "avatar" signup: activity.signup, size: 24 %}
+                </div>
+                <div class="flex-1">
+                  {{ activity.show_page_view }}
+                </div>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+        {{ page.activities | paginate prev_label: "&laquo;" next_label: "&raquo;" }}
+      </div>
+	  </div>
+  </div>
+{% endif %}

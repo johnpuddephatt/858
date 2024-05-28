@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="850" height="721" viewBox="0 0 850 721">
+  <defs>
+    <style>
+      .cls-1 {
+        isolation: isolate;
+      }
+
+      .cls-2 {
+        fill: #ca9034;
+        mix-blend-mode: multiply;
+      }
+
+      .cls-3 {
+        fill: none;
+      }
+    </style>
+  </defs>
+  <g class="cls-1">
+    <g id="Layer_1" data-name="Layer 1">
+      <polygon class="cls-2" points="651.86 722.22 850.48 583.04 849.97 126.55 0.53 721.89 651.86 722.22"/>
+      <rect class="cls-3" x="274.63" y="75.21" width="1390.8" height="576.14"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,81 @@
+{% if page.public_activities_count > 0 or page.is_commentable? %}
+  <div id="stream" class="mt-4">
+    <div class="relative flex flex-col min-w-0 rounded break-words border bg-white border-1 border-gray-300">
+      <div class="py-3 px-6 mb-0 bg-gray-200 border-b-1 border-gray-300 text-gray-900">
+        <div class="md:flex items-center justify-between">
+          <h3 class="h5 mb-1 md:mb-0">
+            <a name="addreaction"></a>
+            {% if page.public_activities_count == 1 %}
+              Showing 1 reaction
+            {% elsif page.public_activities_count > 1 %}
+              Showing {{ page.public_activities_count }} reactions
+            {% elsif page.is_commentable? %}
+              Be the first to comment
+            {% endif %}
+          </h3>
+          <div class="page-follow" id="page_follow_{{ page.id }}">
+            {% include "page_follow" %}
+          </div>
+        </div>
+      </div>
+      {% if page.is_commentable? and page.type_name != 'Petition' and page.type_name != 'Endorsement' %}
+        <div class="flex-auto p-6">
+          <div class="reaction-wrap">
+            {% form_for comment %}
+              {% if page.type_name == 'Suggestion' %}
+                {% if page.suggestion.suggestion_box_tag_names.size > 0 %}
+                <div class="mb-4">
+                  <div class="tag-page">
+                    <strong class="block mb-1">How would you tag this suggestion?</strong>
+                    {% include "suggestion_tag_list" %}
+                  </div>
+                </div>
+                {% endif %}
+              {% endif %}
+              <div class="form-errors">{% error_messages_for comment %}</div>
+              <div class="mb-4">
+                {% text_area "content", class:"form-control textarea autogrow" %}
+              </div>
+              <input type="hidden" class="text" id="pending_object_id" name="pending_object_id" value="{{ request.pending_object_id }}"/>
+              <div class="md:flex items-center justify-between">
+                {% if request.logged_in? %}
+                  {% submit_tag "Post your comment", class:"btn btn-primary submit-button" %}
+                {% else %}
+                  {% submit_tag "Post your comment", class:"btn btn-primary submit-button hide" %}
+                {% endif %}
+                {% if request.logged_in? and site.has_rule_page? %}
+                <div class="review-rules mt-1 md:mt-0"><a href="{{ site.rule_page.url }}">Review the site rules</a></div>
+                {% endif %}
+              </div>
+              <div class="form-submit"></div>
+            {% endform_for %}
+            {% unless request.logged_in? %}
+              <div class="user-session-form-container">
+                {% include "user_session_form" %}
+              </div>
+            {% endunless %}
+          </div>
+        </div>
+      {% endif %}
+      {% if page.public_activities_count > 0 %}
+        <div id="reactions" class="flex-auto p-6 bg-gray-100 border-t rounded-b content-list">
+          <ul id="page-stream" class="list-unstyled mb-0 activities">
+            {% for activity in page.activities %}
+              <li class="activity {% unless forloop.last == true %}mb-3{% endunless %}">
+                <div class="flex items-start">
+                  <div class="mr-3">
+                    {% include "avatar" signup: activity.signup, size: 24 %}
+                  </div>
+                  <div class="flex-1">
+                    {{ activity.show_page_view }}
+                  </div>
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
+          {{ page.activities | paginate prev_label: "&laquo;" next_label: "&raquo;" }}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+{% endif %}

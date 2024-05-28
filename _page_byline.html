@@ -1,0 +1,4 @@
+<div class="byline text-gray-700 text-xs">
+  Posted by {{ page.author.published_name_linked }} <span class="inline-block p-1 text-center font-semibold text-sm align-baseline leading-none rounded bg-gray-600 text-white hover:bg-gray-700">{{ page.author.capital_amount_format }}</span> on {{ page.published_at | date: '%B %d, %Y' }}
+  {% if site.has_rule_page? and request.logged_in? %}&middot; <a href="{{ page.flag_url }}" class="flag get">Flag</a>{% endif %}
+</div>

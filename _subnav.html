@@ -1,0 +1,19 @@
+{% if page.has_subnav? %}
+  <div class="relative flex flex-col min-w-0 rounded break-words border bg-white border-1 border-gray-300 mb-4">
+    <div class="py-3 px-6 mb-0 bg-gray-200 border-b-1 border-gray-300 text-gray-900">
+      <h4 class="h5 mb-0">In this section</h4>
+    </div>
+    <div class="subnav flex flex-col pl-0 mb-0 border rounded border-gray-300 ">
+      {% for child in page.nav_children %}
+        {% if child.leaf? or child.nav_children.size == 0 %}
+          <a class="relative block py-3 px-6 -mb-px border border-r-0 border-l-0 border-gray-300 no-underline w-full {% if child.is_or_is_ancestor_of_current_page? %}active{% endif %}" href="{{ child.url }}">{{ child.name }}</a>
+        {% else %}
+          <a class="relative block py-3 px-6 -mb-px border border-r-0 border-l-0 border-gray-300 no-underline w-full {% if child.is_or_is_ancestor_of_current_page? %}active{% endif %}" href="{{ child.url }}" >{{ child.name }}</a>
+          {% for child2 in child.nav_children %}
+            <a class="relative block py-3 px-6 -mb-px border border-r-0 border-l-0 border-gray-300 no-underline w-full text-xs" href="{{ child2.url }}">{{ child2.name }}</a>
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+{% endif %}

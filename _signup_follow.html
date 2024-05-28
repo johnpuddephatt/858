@@ -1,0 +1,13 @@
+{% if request.logged_in? %}
+  {% if signup_follow.id != request.current_signup.id %}
+    {% if request.current_signup.following_ids contains signup_follow.id %}
+    <a href="{{ signup_follow.unfollow_url }}" class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded  no-underline py-1 px-2 leading-tight text-xs  text-gray-600 border-gray-600 hover:bg-gray-600 hover:text-white bg-white hover:bg-gray-700 delete">Unfollow</a>
+    {% else %}
+    <a href="{{ signup_follow.follow_url }}" class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded  no-underline py-1 px-2 leading-tight text-xs  text-blue-600 border-blue-600 hover:bg-blue-600 hover:text-white bg-white hover:bg-blue-600 post">Follow</a>
+    {% endif %}
+
+    {% if signup_follow.following_ids contains request.current_signup.id %}
+      <div class="desktop-visible"><div class="text-xs text-gray-700 is_following">{{ signup_follow.published_name }} is following you</div></div>
+    {% endif %}
+  {% endif %}
+{% endif %}

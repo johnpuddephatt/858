@@ -1,0 +1,46 @@
+<div class="flex flex-wrap  flex-row-reverse">
+  <div class="md:w-1/3 pr-4 pl-4">
+    <div class="box">
+      <div class="question-list relative inline-flex align-middle flex-col items-start justify-center w-full">
+        {% for child in page.parent.children %}
+        {% if child.type_name == 'Question' %}
+        <a class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline text-gray-600 border-gray-600 hover:bg-gray-600 hover:text-white bg-white hover:bg-gray-700 block w-full" href="{{ child.url }}">{{ child.headline }}</a>
+        {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <div class="md:w-2/3 pr-4 pl-4 pt-4 md:pt-0">
+    {% if page.headline.size > 0 %}
+    <h2 class="headline">{{ page.headline }}</h2>
+    {% endif %}
+
+    {% if page.question.content.size > 0 %}
+    <div id="intro" class="intro">
+      {{ page.question.content }}
+    </div>
+    {% endif %}
+
+    {% if page.question.answer.size > 0 %}
+      <div class="my-4 relative flex flex-col min-w-0 rounded break-words border bg-white border-1 border-gray-300">
+        <p class="py-3 px-6 mb-0 bg-gray-200 border-b-1 border-gray-300 text-gray-900">Answer</p>
+        <div class="flex-auto p-6">
+          {{ page.question.answer }}
+        </div>
+      </div>
+    {% endif %}
+
+    {% if page.tags_count > 0 %}
+    <div id="page-tags" class="page-tags">
+      {% include "page_tags" with page %}
+    </div>
+    {% endif %}
+
+    {% include "like_page" heading: "Was this helpful?" %}
+
+    {% if page.show_stream? %}
+    {% include "page_stream" %}
+    {% endif %}
+  </div>
+</div>

@@ -1,0 +1,59 @@
+<div class="">
+  <div
+    x-data="{ clicked: false, selected: '{{ page.children.first.slug }}'}"
+    x-effect="
+      console.log(selected + '!');setTimeout(function() { console.log(selected);
+        if(clicked) {
+        document.querySelector('#' + selected).scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+        inline: 'nearest',
+      })};}, 200)
+    "
+    class="container lg:max-w-6xl mt-12 lg:mt-28 mb-16 lg:mb-36"
+  >
+    <h2 class="type-lg mb-12">How would a House of Citizens work?</h2>
+
+    <div class="grid lg:grid-cols-2 gap-12">
+      <div class="space-y-2">
+        {% for page in page.children %}
+          {% if page.type_name == 'Question' %}
+            <button
+              class="relative z-10 hover:before:!bg-opacity-100 before:-z-10 type-sm text-left items-center flex justify-between w-full px-4 before:transition-all py-6 before:bg-white before:inset-0 before:bg-opacity-60 before:absolute "
+              :class="{'before:!bg-opacity-100 before:w-[calc(100%+1rem)] lg:before:w-[calc(100%+4rem)]' : selected == '{{ page.slug }}'}"
+              @click="clicked = true; selected = '{{ page.slug }}'"
+            >
+              {{ page.headline }}
+              <svg
+                :class="{'opacity-0': selected == '{{ page.slug }}'}"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6 transition"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+              </svg>
+            </button>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <div class="relative min-h-72">
+        {% for page in page.children %}
+          <div
+            class="relative font-semibold  bg-white p-8 prose"
+            x-show="selected == '{{ page.slug }}'"
+            id="{{ page.slug }}"
+          >
+            {% if page.type_name == 'Question' %}
+              <h2 class="text-md mb-4 lg:hidden">{{ page.headline }}</h2>
+              {{ page.question.answer }}
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
